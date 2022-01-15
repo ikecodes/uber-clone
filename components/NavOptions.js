@@ -1,8 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
+import { selectOrigin } from '../slices/navSlice';
 const data = [
   {
     id: '123',
@@ -19,6 +21,7 @@ const data = [
 ];
 const NavOptions = () => {
   const navigation = useNavigation();
+  const origin = useSelector(selectOrigin);
   return (
     <FlatList
       data={data}
@@ -28,8 +31,9 @@ const NavOptions = () => {
         <TouchableOpacity
           style={tw`bg-gray-200 p-2 pl-6 pb-8 pt-4 w-40 m-2`}
           onPress={() => navigation.navigate(item.screen)}
+          disabled={!origin}
         >
-          <View>
+          <View style={tw`${!origin && 'opacity-20'}`}>
             <Image
               style={{ height: 120, width: 120, resizeMode: 'contain' }}
               source={{ uri: item.image }}
